@@ -1,0 +1,31 @@
+---
+title: "PGS-UKBB"
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.align = 'center', dev = "svg")
+```
+
+class: title-slide center middle inverse
+
+# Phenome-wide polygenic scores<br>from the UK Biobank
+
+<br>
+
+### Florian Privé
+
+---
+
+## Data
+
+
+
