@@ -22,7 +22,105 @@ class: title-slide center middle inverse
 
 ---
 
-## Data
+class: center middle inverse
+
+# Introduction
+
+---
+
+## Summary statistics vs individual-level data
+
+&lt;br&gt;
+
+- Summary statistics are not the only way to derive PGS
+
+- Individual-level data can be used directly (i.e. the genotype matrix and the phenotypes)
+
+- This makes sense now with large datasets such as the UKBB
+
+- Plus, we can derive PGS for multiple phenotypes
+
+- Using our fast implem of penalized regressions [1], we can use **only the UK Biobank** genetic and phenotypic data to derive PGS for **240 traits**.
+
+.footnote[[1] Privé, Florian, et al. "Efficient implementation of penalized regression for genetic risk prediction." Genetics 212.1 (2019): 65-74.]
+
+---
+
+## Major strength of the UK Biobank and this study
+
+&lt;br&gt;
+
+- A major concern about PGS is their transferability to other ancestries    
+(e.g. bad performances in Africans for PGS trained in Europeans)
+
+- We are well positioned to reiterate this concern with strong evidence
+
+    - UKBB data contains 450K Europeans, 9000 South Asians, 1500 Chinese and 4000 Africans
+    
+    - who had their genetic and phenotypic information derived **in the same way**
+    
+    - plus we (I?) expect that LASSO penalty strongly limits the overfitting in the training data, and potentially transfer better to other ancestries
+
+---
+
+class: center middle inverse
+
+# Methods
+
+---
+
+## Genetic data
+
+
+- 1,117,182 HapMap3 variants 
+
+- 434,868 European ancestry, 8636 South Asian, 1803 East Asian, 6983 African
+
+&lt;img src="../figures/ancestry.png" width="62%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Phenotypic data
+
+&lt;br&gt;
+
+- Mapped ICD10 and ICD9 codes to phecodes `\(\rightarrow\)` 104 phecodes with sufficient prediction
+
+- Used other UKBB fields to define 111 continuous and 25 binary phenotypes
+
+    `\(\Rightarrow\)` 111 continuous + 129 binary = **240 phenotypes**
+    
+&lt;br&gt;
+
+Some examples:
+
+- body measures: height, BMI, BMD, etc.
+
+- blood biochemistry: cholesterol, vitamin D, etc.
+
+- ECG measures
+
+- misc
+
+---
+
+## Penalized regressions
+
+Find `\(\mu\)`, `\(\beta\)`, `\(\gamma\)` that minimize
+
+`$$\underbrace{ ||y - (\mu + G \beta + X \gamma)||_2^2 }_\text{Loss function} + \underbrace{ \lambda \left( \alpha \|\beta\|_1 + (1 - \alpha) \frac{\|\beta\|_2^2}{2} \right) }_\text{Penalisation} ~,$$`
+
+where `\(G\)` is the genotype matrix, `\(X\)` is the covariate matrix, `\(y\)` is the (quantitative) phenotype and `\(\lambda\)` is a hyper-parameter that needs to be chosen.
+
+Using `\(\alpha = 1\)` is the LASSO, and I'm using `\(\alpha = 10^{-4}\)` to approximate a ridge regression.
+
+&lt;br&gt;
+
+Also just added two extensions for the LASSO:
+
+- allows different scaling (normal, Pareto, none)
+
+- adaptive LASSO `\(\rightarrow\)` less penalty for largest effects
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
