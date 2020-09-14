@@ -40,7 +40,7 @@ class: center middle inverse
 
 - Plus, we can derive PGS for multiple phenotypes
 
-- Using our fast implem of penalized regressions [1], we can use **only the UK Biobank** genetic and phenotypic data to derive PGS for **240 traits**.
+- Using our fast implem of penalized regressions [1], we can  derive PGS for **240 traits** using **only the UK Biobank** genetic and phenotypic data.
 
 .footnote[[1] Privé, Florian, et al. "Efficient implementation of penalized regression for genetic risk prediction." Genetics 212.1 (2019): 65-74.]
 
@@ -55,7 +55,7 @@ class: center middle inverse
 
 - We are well positioned to reiterate this concern with strong evidence
 
-    - UKBB data contains 450K Europeans, 9000 South Asians, 1500 Chinese and 4000 Africans
+    - UKBB data contains 450K Europeans, 9K South Asians, 2K East Asians and 7K Africans
     
     - who had their genetic and phenotypic information derived **in the same way**
     
@@ -74,7 +74,8 @@ class: center middle inverse
 
 - 1,117,182 HapMap3 variants 
 
-- 434,868 European ancestry, 8636 South Asian, 1803 East Asian, 6983 African
+- Training based on 434,868 individuals of European ancestry +    
+testing in 8636 South Asian, 1803 East Asian and 6983 African
 
 &lt;img src="../figures/ancestry.png" width="62%" style="display: block; margin: auto;" /&gt;
 
@@ -121,6 +122,105 @@ Also just added two extensions for the LASSO:
 - allows different scaling (normal, Pareto, none)
 
 - adaptive LASSO `\(\rightarrow\)` less penalty for largest effects
+
+---
+
+## Prediction accuracy
+
+&lt;br&gt;
+
+**Partial correlation** between PGS (x) and phenotype (y), adjusting for covariates (z).
+
+Basically, regress out x and y by z to get x_eps and y_eps, and compute cor(x_eps, y_eps).
+
+---
+
+class: center middle inverse
+
+# Results
+
+---
+
+## Lasso results in different ancestries
+
+&lt;br&gt;
+
+&lt;img src="../figures/lasso-results.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+Robust slope of pcor_other ~ pcor_eur, squared:
+
+- 62.3% for South Asians
+- 45.5% for East Asians
+- 18.8% for Africans
+
+---
+
+## Importance of scaling? (i.e. of heritability model)
+
+&lt;br&gt;
+
+&lt;img src="../figures/lasso-scalings.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+- Normal scaling = all variants contribute same heritability
+
+- No scaling = common variants contribute more heritability
+
+&lt;br&gt;
+
+I expected common variants to generalize better.
+
+---
+
+## Lasso vs elastic-net
+
+&lt;br&gt;
+
+&lt;img src="../figures/lasso-vs-enet.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+To note:
+
+- only 32 phenotypes because enet takes time
+
+- some models have been early-stopped at 500K non-zero variables
+
+---
+
+## Supp -- How fast is the LASSO implementation?
+
+&lt;br&gt;
+
+&lt;img src="../figures/timings.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+Running time is quadratic with the number of non-zero variables.
+
+---
+
+## Supp -- Adaptive LASSO is even faster
+
+&lt;br&gt;
+
+&lt;img src="../figures/timings-adaptive.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+Can fasten lasso fitting using power_adaptive = 1.5 (even sparser models)    
+without losing prediction accuracy apparently
+
+Sparser models have similar performance in African ancestry as well
+
+---
+
+class: center middle inverse
+
+# That's all folks!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
