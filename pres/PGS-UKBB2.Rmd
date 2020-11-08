@@ -153,7 +153,7 @@ Recall: $\text{dist}_{PC}^2 \propto F_{ST}$
 
 ```{r, out.width="80%"}
 knitr::include_graphics("../figures/manhattan-bilirubin.JPG")
-knitr::include_graphics("../figures/manhattan-less-tanned.PNG")
+knitr::include_graphics("../figures/manhattan-less-tanned.JPG")
 ```
 
 ---
