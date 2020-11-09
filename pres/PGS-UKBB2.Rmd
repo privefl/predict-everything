@@ -166,6 +166,20 @@ knitr::include_graphics("../figures/predict-height-common.PNG")
 
 ---
 
+### Model with 5M variants
+
+<br>
+
+First 9 are with 1M and 10th is with 5M variants, for phecode 495.
+
+<br>
+
+```{r, out.width="95%"}
+knitr::include_graphics("../figures/res_5M.JPG")
+```
+
+---
+
 ### Using family history (LT-FH) to increase power (for GWAS)
 
 ```{r, out.width="70%"}
