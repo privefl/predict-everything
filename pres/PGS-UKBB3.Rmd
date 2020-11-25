@@ -119,6 +119,13 @@ knitr::include_graphics("../figures/lasso-multi.JPG")
 
 ---
 
+### Number of times a variant is used
+
+```{r, out.width="85%"}
+knitr::include_graphics("../figures/nb_used.JPG")
+```
+
+---
 class: center middle inverse
 
 # That's all folks!
